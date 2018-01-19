@@ -1,0 +1,81 @@
+<div class="row">
+  <div class="col-md-12">
+    <p class="lead">
+      <h2 style="text-align:center;">#show cable modem</h2>
+    </p>
+    <%= render "back_to_reports" %>
+  </div>
+</div>
+<div class="row">
+    <div class="col-md-10">
+      <div class="row">
+        <div class="col-md-6"></div>
+        <div class="col-md-5">
+          <h4><span class="label label-default">Click on MAC Address for Modem Detail</span></h4>
+        </div>
+      </div>
+      <div class="row panel panel-default">
+        <div class="col-md-12">
+          <table class="table table-bordered table-condensed table-hover tablesorter">
+          </thead>
+            <tr>
+              <th>CHANNEL</th>
+              <th>STATE</th>
+              <th>SNR</th>
+              <th>RECEIVE POWER</th>
+              <th>HOST/CPE</th>
+              <th>IP ADDRESS</th>
+              <th colspan=2>MAC ADDRESS</th>
+              <th>MODULATION</th>
+              <th>DOCSIS</th>
+              <th>REG TIME</th>
+              <th>KICK</th>
+              <th>RESET</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @scm.each do |line| %>
+              <% color = '#39752a' %>
+              <% color = '#c42727' if line[:state] == 'offline' %>
+              <% _class = "danger" if line[:state] == 'offline' %>
+              <% color = 'blue' if line[:state] =~ /init/ %>
+              <% _class = 'warning' if line[:state] =~ /init/ %>
+              <% maccolor = color %>
+              <% maccolor = "#{color};font-weight:bold;" if !sanctionedModem(line[:mac]) %>
+              <tr class="<%= _class %>">
+                <td style="color:<%= color %>"><%= line[:ch] %></td>
+                <td style="color:<%= color %>"><%= line[:state] %></td>
+                <td style="color:<%= color %>"><%= line[:snr] %></td>
+                <td style="color:<%= color %>"><%= line[:rcv_pwr] %></td>
+                <td style="color:<%= color %>"><%= line[:cpe] %>
+                <% if line[:cpe].match(/^([1-9]+)\//) %>
+								  <%= link_to image_tag('computer-16.png', :height => '16', :width => '16'), schdetail_path(:target => line[:cmts], :mac => line[:mac]), :method => :get %>
+                <% end %>
+								</td>
+                <% if line[:state] != 'offline' %>
+                  <td style="color:<%= color %>"><%= link_to( line[:ip], "http://" + line[:ip], :target => "_blank") %></td>
+                <% else %>
+                  <td style="color:<%= color %>"><%= line[:ip] %></td>
+                <% end %>
+                <td style="color:<%= maccolor %>"><%= link_to line[:mac], scmdetail_path(:target => line[:cmts], :mac => line[:mac]), :method => :get, :target => "_blank" %>
+                </td>
+                <td>
+                  <%= link_to image_tag('platypus.png', :height => '25', :width => '25'), plat_path(:ip => line[:ip], :mac => line[:mac]), :method => :get %>
+                </td>
+                <td style="color:<%= color %>"><%= line[:us_mod] %></td>
+                <td style="color:<%= color %>"><%= line[:docsis] %></td>
+                <td style="color:<%= color %>"><%= line[:uptime] %></td>
+                <td><%= link_to image_tag('trash_empty.png', :height => '25', :width => '25'), deleteoffline_path(:target => "#{@scmc3}", :filter => line[:mac]), :confirm => 'Are you sure you want to delete this offline modem from CMTS?', :remote => true, :method => :get %>
+                </td>
+                <td><%= link_to image_tag('recycle-red-button.png', :height => '20', :width => '25'), resetmodemcounters_path(:target => line[:ip]), :confirm => 'Are you sure you want to power cycle this modem?', :remote => true, :method => :get %>
+                </td>
+              </tr>
+            <% end %>
+            </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<%= render "back_to_reports" %>

@@ -1,0 +1,26 @@
+<p class="lead">
+  <h2 style="text-align:center;">MAC Vendor Lookup</h2>
+</p>
+
+<%= render "back_to_reports" %>
+
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class=" centering col-md-4">
+      <div class="panel panel-default">
+        <table class="table table-bordered table-condensed table-hover">
+          <thead>
+            <tr>
+              <th style="text-align:center;">Vendor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="text-align:center;"><a href="https://www.google.com/search?q=<%= @macvendor %>"><%= @macvendor %></a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

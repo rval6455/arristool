@@ -1,0 +1,56 @@
+<p class="lead">
+  <h2 style="text-align:center;">Platypus Account Information</h2>
+</p>
+
+<%= render "back_to_reports" %>
+
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="centering col-md-5">
+      <div class="panel panel-default">
+        <table class="table table-striped table-bordered table-condensed table-hover">
+          <tbody>
+            <tr>
+              <td style="font-weight:bold">CID</td>
+              <td><%= @record[:cid] %></td>
+            </tr>
+            <tr>
+              <td style="font-weight:bold">Active</td><td><%= @record[:state] %></td>
+            </tr>
+            <tr>
+              <td style="font-weight:bold">Name</td>
+              <td><%= @record[:name] %></td>
+            </tr>
+            <% @record[:numbers].each do |line| %>
+              <tr>
+                <td style="font-weight:bold"><%= line[:type] %></td>
+                <td><%= number_to_phone(line[:number], area_code: true) %></td>
+              </tr>
+            <% end %>
+            </tbody>
+        </table>
+      </div>
+
+      <% if !@record[:address].nil? %>
+        <br />
+        <div class="panel panel-default">
+          <table class="table table-striped table-bordered table-condensed table-hover">
+            <tbody>
+              <tr>
+                <td><%= @record[:address].addr1 %></td>
+              </tr>
+              <% if !@record[:address].addr2.blank? %>
+                <tr>
+                  <td><%= @record[:address].addr2 %></td>
+                </tr>
+              <% end %>
+              <tr>
+                <td><%= @record[:address].city %>, <%= @record[:address].state %>, <%= formatZipCode(@record[:address].zip) %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

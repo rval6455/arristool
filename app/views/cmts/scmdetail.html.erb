@@ -1,0 +1,32 @@
+<p>
+  <h2 style="text-align:center;"><%= @scmdetail[:header] %></h2>
+</p>
+
+<%= render "back_to_reports" %>
+
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="centering col-md-5">
+      <div class="panel panel-default">
+        <table class="table table-striped table-bordered table-condensed table-hover .center-table">
+          <tbody>
+            <% @scmdetail[:detail].each do |line| %>
+              <% key_value = line.split(":") %>
+              <tr>
+                <% if key_value[0] == 'Modem Vendor' %>
+                  <% style = "font-size:1.0em;font-weight:bold;" %>
+                <% else %>
+                  <% style = "" %>
+                <% end %>
+                <td style="<%= style %>"><%= key_value[0] %></td>
+                <td style="<%= style %>"><%= key_value[1] %></td>
+              </tr>
+            <% end %>
+            </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render "back_to_reports" %>

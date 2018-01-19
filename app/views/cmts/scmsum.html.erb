@@ -1,0 +1,38 @@
+<p class="lead">
+  <h2 style="text-align:center;">#show cable modem summary</h2>
+</p>
+
+<%= render "back_to_reports" %>
+
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class=" centering col-md-6">
+      <div class="panel panel-default">
+        <table class="table table-bordered table-condensed table-hover">
+          </thead>
+            <tr>
+              <th>Interface</th>
+              <th>Total</th>
+              <th>Offline</th>
+              <th>Unregistered</th>
+              <th>Rejected</th>
+              <th>Registered</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @scmsum.each do |line| %>
+              <tr>
+                <td><%= line[:int] %></td>
+                <td><%= line[:total] %></td>
+                <td><%= line[:offline] %></td>
+                <td><%= line[:unreg] %></td>
+                <td><%= line[:reject] %></td>
+                <td><%= line[:registered] %></td>
+              </tr>
+            <% end %>
+            </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

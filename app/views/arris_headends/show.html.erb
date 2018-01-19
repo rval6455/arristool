@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Host:</b>
+  <%= @arris_headend.host %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @arris_headend.name %>
+</p>
+
+<p>
+  <b>Downstream freq:</b>
+  <%= @arris_headend.downstream_freq %>
+</p>
+
+<p>
+  <b>Polarity:</b>
+  <%= @arris_headend.polarity %>
+</p>
+
+
+<%= link_to 'Edit', edit_arris_headend_path(@arris_headend) %> |
+<%= link_to 'Back', arris_headends_path %>

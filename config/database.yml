@@ -1,0 +1,31 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8
+  reconnect: true
+  host: db
+  pool: 5
+  username: <%= ENV['MYSQL_USER'] %>
+  password: <%= ENV['MYSQL_PASSWORD'] %>
+
+development:
+  <<: *default
+  database: arristool_development
+
+production:
+  <<: *default
+  database: arristool_production
+
+gestio:
+  adapter: mysql2
+  encoding: utf8
+  pool: 10
+  host: <%= ENV['GESTIO_DB_HOST'] %>
+  port: <%= ENV['GESTIO_DB_PORT'] %>
+  database: <%= ENV['GESTIO_DB_NAME'] %>
+  username: <%= ENV['GESTIO_DB_USERNAME'] %>
+  password: <%= ENV['GESTIO_DB_PASSWORD'] %>
+  reconnect: true
+
+arris_prov:
+  <<: *default
+  database: vyyo

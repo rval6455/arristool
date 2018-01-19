@@ -1,0 +1,29 @@
+<h1>Listing arris_headends</h1>
+
+<table>
+  <tr>
+    <th>Host</th>
+    <th>Name</th>
+    <th>Downstream freq</th>
+    <th>Polarity</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @arris_headends.each do |arris_headend| %>
+  <tr>
+    <td><%= arris_headend.host %></td>
+    <td><%= arris_headend.name %></td>
+    <td><%= arris_headend.downstream_freq %></td>
+    <td><%= arris_headend.polarity %></td>
+    <td><%= link_to 'Show', arris_headend %></td>
+    <td><%= link_to 'Edit', edit_arris_headend_path(arris_headend) %></td>
+    <td><%= link_to 'Destroy', arris_headend, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Arris headend', new_arris_headend_path %>

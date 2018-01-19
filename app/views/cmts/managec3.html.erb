@@ -1,0 +1,114 @@
+<style>
+.div ds {
+  display: inline;
+}
+</style>
+
+<h2 style="text-align:center;">C3/CMTS Statistics</h2>
+
+<div class="row">
+<div class="col-md-1"></div>
+<div class="col-md-10">
+
+  <br />
+  <p>
+  <%= button_to 'Back to List', root_path, :method => 'get', :class => 'btn btn-mini btn-primary' %>
+  </p>
+  <br />
+  <br />
+
+  <% @report.sort_by {|k,v| k[:host] if k == 'host'.to_sym}.each do |cmts| %>
+    <% provisioned = 0 %>
+    <% idx = 0 %>
+    <div class="row">
+    <h3><span class="label label-primary"><%= cmts[:title] %></span></h3>
+      <div class="col-md-5">
+      </div>
+
+      <div class="col-md-4" style="margin-top: -30px;">
+          <% color = 'red' if cmts[:ds_util] >= 90 %>
+          <% color = 'green' if cmts[:ds_util] < 90 %>
+        <div class="panel panel-default">
+          <table class="table table-striped table-bordered table-condensed table-hover">
+            <thead>
+              <tr>
+                <th>FREQUENCY</th>
+                <th>POLARITY</th>
+                <th>DS MODULATION</th>
+                <th>UTILIZATION</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td ><%= cmts[:ds_freq] %>Mhz</td>
+                <td ><%= cmts[:polarity] %></td>
+                <td><%= cmts[:ds_modulation].upcase %></td>
+                <td class='dsutil' style="color:<%= color %>" rel='tooltip'><%= cmts[:ds_util] %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <% if session[:noc] %>
+          <%= link_to 'Config', showrun_path(:target => "#{cmts[:host]}"), :method => :get, :class => 'btn btn-mini btn-primary' %>
+          <%= link_to 'Controllers', showcontrollers_path(:target => "#{cmts[:host]}"), :method => :get, :class => 'btn btn-mini btn-primary' %>
+          <%= link_to 'Environ', showenvironment_path(:target => "#{cmts[:host]}"), :method => :get, :class => 'btn btn-mini btn-primary' %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <table class="table table-striped table-condensed table-hover">
+        <thead>
+          <tr>
+            <th>CHANNEL</th>
+            <th colspan="2">STATE</th>
+            <th></th>
+            <th>UPSTREAM FREQUENCY (MHz)</th>
+            <th>CHANNEL WIDTH (kHz)</th>
+            <th>DOCSIS</th>
+            <th>UPSTREAM Modulation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% cmts.each do |k,v| %>
+            <% next if k == :host %>
+            <% next if k == :title %>
+            <% next if k == :ds_freq %>
+            <% next if k == :polarity %>
+            <% next if k == :ds_modulation %>
+            <% next if k == :ds_util %>
+
+            <% color = '' %>
+            <% color = 'red' if (v[:prov] > 0 && v[:subs] == 0) %>
+            <% merstyle = '' %>
+            <% merstyle = 'color:red;font-weight:bold;' if ((v[:mer] < 15) && (v[:int_state] != "ADMIN DOWN") && (v[:prov] != 0)) %>
+
+            <tr>
+              <td><%= k %></td>
+              <td width='110px'><%= v[:int_state] %></td>
+              <td>
+                <% state_img = ''; div_class = ''; tooltip = '' %>
+                <% if v[:int_state] == 'ADMIN DOWN' %>
+                  <% state_img = 'up_arrow.png'; div_class = 'interface_control_up'; tooltip = 'Turn Interface Up' %>
+                <% else %>
+                  <% state_img = 'down_arrow.png'; div_class = 'interface_control_down'; tooltip = 'Turn Interface Down' %>
+                <% end %>
+                <%= link_to image_tag(state_img, :height => '20', :width => '20'), showcablemodems_path(:target => "#{cmts[:host]}"), :method => :get, 'data-original-title'.to_sym => tooltip, :class => div_class %>
+              <td/>
+              <td><%= v[:freq] %></td>
+              <td><%= v[:ch_width] %></td>
+              <td><%= v[:ch_type] %></td>
+              <td><%= v[:ch_modulation] %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <br />
+  <% end %>
+  <p>
+    <%= button_to 'Back to List', root_path, :method => 'get', :class => 'btn btn-mini btn-primary' %>
+  </p>
+</div>
+<div class="col-md-1"></div>
+</div>

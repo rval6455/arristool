@@ -1,0 +1,277 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ */
+
+@import "bootstrap";
+
+@import url(http://fonts.googleapis.com/css?family=BenchNine|Rufina|Marcellus|Raleway);
+
+@font-face {
+    font-family: 'csfont';
+    src: url('/assets/sansation_light-webfont.eot');
+    src: url('/assets/sansation_light-webfont.eot?#iefix') format('embedded-opentype');
+    //,
+    //     url('/assets/sansation_light-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.csfont {font-family: csfont, veranda, helvetica, sans-serif;}
+
+.csfont2 {font-family: 'BenchNine', sans-serif;}
+.csfont3 {font-family: 'Rufina', serif;}
+.csfont4 {font-family: 'Marcellus', serif;}
+.csfont5 {font-family: 'Raleway', sans-serif;}
+
+html, body{height:100%; margin:0;padding:0}
+
+.container-fluid{
+  height:100%;
+  display:table;
+  width: 100%;
+  padding: 0;
+}
+
+.row-fluid {height: 100%; display:table-cell; vertical-align: middle;}
+
+.centering {
+  float:none;
+  margin:0 auto;
+}
+
+pre {
+  font: courier;
+  font-size: 1.25em;
+}
+h2 {
+  color: #B00000;
+  font: normal 26px/32px csfont,arial,sans-serif;
+}
+
+.h4plus {
+  color: #B00000;
+  font: normal 20px/24px csfont,arial,sans-serif;
+}
+
+.container {
+  width:100pc;
+}
+
+#header h1 {
+  border-bottom: 1px none;
+  padding-left: 400px;
+  padding-top:35px;
+  margin: 0;
+  color: white;
+  font-family: csfont, Verdana, Arial, Georgia;
+  font-weight: normal;
+  font-size:2.5em;
+}
+
+#header h2 {
+  border-bottom: 1px none;
+  padding-left: 400px;
+  padding-top:35px;
+  margin: 0;
+  color: white;
+  font-family: csfont, Verdana, Arial, Georgia;
+  font-weight: normal;
+  font-size:2.0em;
+}
+
+#header h3 {
+  border-bottom: 1px none;
+  padding-left: 400px;
+  padding-top:35px;
+  margin: 0;
+  /*font-size: 1.8em;*/
+  color: white;
+  font-family: csfont, Verdana, Arial, Georgia;
+  font-weight: normal;
+}
+
+#header img {
+  padding-top:10px;
+  padding-left:10px;
+  float:left;
+}
+
+#header-wrapper {
+  width: 100%;
+  height: 100px;
+#  background: #3366CC url(/assets/background-cont.jpg) repeat-x;
+	background-color: black;
+}
+
+#header {
+  margin: 0 auto;
+  width: 100%;
+  min-width: 100%;
+}
+
+#content-wrapper {
+  margin: 0 auto;
+  width: 100%;
+}
+
+.header-logo {
+  width: 275px;
+  height: 90px;
+  float:left;
+}
+
+.header-text {
+  width: 870px;
+  min-width: 500px;
+  text-align: center;
+  float:left;
+  font-size: 1em;
+}
+.sec_header {
+  background-color:#00ff00;
+}
+
+.table-curved {
+   border-collapse: separate;
+   border: solid #ccc 1px;
+   border-radius: 6px;
+   border-left: 0px;
+   border-top: 2px;
+}
+.table-curved > thead:first-child > tr:first-child > th {
+    border-bottom: 0px;
+    border-top: solid #ccc 2px;
+}
+.table-curved td, .table-curved th {
+    border-left: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+}
+.table-curved > :first-child > :first-child > :first-child {
+    border-radius: 6px 0 0 0;
+}
+.table-curved > :first-child > :first-child > :last-child {
+    border-radius: 0 6px 0 0;
+}
+.table-curved > :last-child > :last-child > :first-child {
+    border-radius: 0 0 0 6px;
+}
+.table-curved > :last-child > :last-child > :last-child {
+    border-radius: 0 0 6px 0;
+}
+
+/* Flash Messaginig */
+.flash_message {
+/*  width: 100%;
+  height: 50px;
+  padding-top: 20px;
+  margin: 0px auto;
+  position:relative;*/
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  width: 100%;
+  padding: 20px;
+  font-weight: bold;
+}
+#flash_notice, #flash_error, #flash_alert {
+  font-family: csfont, Veranda;
+  /*color: red;*/
+/*  position: relative;
+  margin: 0px auto;
+  width: 30pc;
+  height: 30px;
+  text-align: center;
+  vertical-align: center;
+*/
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  width: 30%;
+  border: 2px solid #ccc;
+  margin-top: 50px;
+  padding: 20px;
+  font-weight: bold;
+
+  font-weight: bold;
+  padding: 20px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-box-shadow: 1px 1px 8px rgba(0, 3, 51, 0.5);
+  -moz-box-shadow: 1px 1px 8px rgba(0, 3, 51, 0.5);
+  -o-box-shadow: 1px 1px 8px rgba(0, 3, 51, 0.5);
+  box-shadow: 1px 1px 8px rgba(0, 3, 51, 0.5);
+}
+
+#flash_notice {
+  background-color: #CFC;
+  color: black;
+  font-family: csfont2, Verdana, Arial, Georgia;
+  font-size:1.25em;
+  border: solid 1px #6C6;
+}
+
+#flash_error, #flash_alert {
+  background-color: #FCC;
+  color: #bf0000;
+  font-family: csfont2, Verdana, Arial, Georgia;
+  font-size:1.25em;
+  border: solid 1px #C66;
+}
+
+@header_background_color #333;
+@header_text_color #FDFDFD;
+@alternate_row_background_color #DDD;
+
+@table_width 750px;
+@table_body_height 300px;
+@column_one_width 200px;
+@column_two_width 200px;
+@column_three_width 350px;
+
+
+.fixed_headers {
+  width: 750px;
+  table-layout: fixed;
+  border-collapse: collapse;
+
+  th { text-decoration: underline; }
+  th, td {
+    padding: 5px;
+    text-align: left;
+  }
+
+  thead {
+    background-color: #333;
+    color: #FDFDFD;
+    tr {
+      display: block;
+      position: relative;
+    }
+  }
+  tbody {
+    display: block;
+    overflow: auto;
+    width: 100%;
+    tr:nth-child(even) {
+      background-color: #DDD;
+    }
+  }
+}
+
+.old_ie_wrapper {
+  overflow-x: hidden;
+  overflow-y: auto;
+  tbody { height: auto; }
+}

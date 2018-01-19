@@ -1,0 +1,42 @@
+<style>
+.div ds {
+  display: inline;
+}
+
+</style>
+
+<%= stylesheet_link_tag 'application', :media => 'all' %>
+
+<p class="lead">
+  <h2 style="text-align:center;">Showing Environment</h2>
+</p>
+
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-10">
+    <br />
+    <p>
+      <%= button_to 'Back to Reports', report_path, :method => 'get', :class => 'btn btn-mini btn-primary' %>
+    </p>
+  </div>
+</div>
+<br />
+<br />
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-10">
+    <pre><%= @environment %></pre>
+  </div>
+</div>
+<br />
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-10">
+    <br />
+    <p>
+    <%= button_to 'Back to Reports', report_path, :method => 'get', :class => 'btn btn-mini btn-primary' %>
+    </p>
+    <br />
+    <br />
+  </div>
+</div>

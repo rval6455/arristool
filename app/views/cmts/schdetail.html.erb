@@ -1,0 +1,35 @@
+<p class="lead">
+  <h2 style="text-align:center;">#show cable hosts <%= @schdetail[:header] %></h2>
+</p>
+
+<%= render "back_to_reports" %>
+
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class=" centering col-md-6">
+      <div class="panel panel-default">
+        <table class="table table-bordered table-condensed table-hover">
+          </thead>
+            <tr>
+              <th>MAC Address</th>
+              <th>IP Address</th>
+              <th>Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @schdetail[:detail].each do |line| %>
+              <% if line[:mac].match(/^000E/)%>
+                <% %>
+              <% end %>
+              <tr>
+                <td><%= link_to line[:mac], hostmaclookup_path(:mac => line[:mac]), :method => :get %></td>
+                <td><a href="http://<%= line[:ip] %>"><%= line[:ip] %></a></td>
+                <td><%= line[:type] %></td>
+              </tr>
+            <% end %>
+            </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

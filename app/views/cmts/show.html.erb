@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Host:</strong>
+  <%= @cmt.host %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @cmt.name %>
+</p>
+
+<p>
+  <strong>Downstream freq:</strong>
+  <%= @cmt.downstream_freq %>
+</p>
+
+<%= link_to 'Edit', edit_cmt_path(@cmt) %> |
+<%= link_to 'Back', cmts_path %>

@@ -1,0 +1,203 @@
+<style>
+.div ds {
+  display: inline;
+}
+</style>
+
+<h2 style="text-align:center;">C3/CMTS Statistics</h2>
+
+<div class="row">
+<div class="col-md-1"></div>
+<div class="col-md-10">
+
+	<br />
+	<p>
+	<%= button_to 'Back to List', root_path, :method => 'get', :class => 'btn btn-mini btn-primary' %>
+	</p>
+</div>
+
+	<div class="container-fluid">
+  	<div class="row-fliud">
+    	<div class="centering col-md-6">
+				<h4><b>Site Totals</b></h4>
+				<div class="panel panel-default">
+					<table class="table table-striped table-bordered table-condensed table-hover">
+					  <thead>
+						  <tr>
+						    <th>SITE</th>
+						    <th>TOTAL REGISTERED</th>
+						  </tr>
+						</thead>
+						<tbody>
+							<% @totals.each do |k,v| %>
+							  <tr>
+							  	<td><%= k %></td>
+							  	<td><%= v %></td>
+							  </tr>
+							<% end %>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<% @report.sort_by {|k,v| k[:host] if k == 'host'.to_sym}.each do |cmts| %>
+		<% provisioned = 0 %>
+		<% idx = 0 %>
+		<div class="row">
+		<h3><span class="label label-primary"><%= cmts[:title] %></span></h3>
+			<div class="col-md-5">
+				<div class='ds'>
+
+						<%= link_to image_tag('list.png', :height => '30', :width => '25'), showcablemodems_path(:target => "#{cmts[:host]}"), :method => :get, 'data-original-title'.to_sym => 'Show Cable Modems Listing', :class => "scm" %>
+
+						<%= link_to image_tag('trash_empty.png', :height => '37', :width => '35'), deleteoffline_path(:target => "#{cmts[:host]}", :filter => 'all'), :confirm => 'Are you sure you want to delete offline modems?', :remote => true, :method => :get, 'data-original-title'.to_sym => 'Delete offline modems from show cable modem list', :class => "deleteoffline" %>
+
+						<%= link_to image_tag('arrow.png', :height => '35', :width => '35'), showflaplist_path(:target => "#{cmts[:host]}"), :method => :get, 'data-original-title'.to_sym => 'Show Flapping List', :class => "flaplist" %>
+
+						<% if cmts[:totalsubs] > 0 %>
+							<%= link_to image_tag('sweep.png', :height => '30', :width => '30'), sweep_path(:target => "#{cmts[:host]}"), :method => :get, 'data-original-title'.to_sym => 'Sweep all registered modems', :class => "sweep" %>
+		        <% end %>
+		        <!-- Show Cable Modem Summary Link -->
+						<%= link_to image_tag('sum.png', :height => '22', :width => '22'), scmsum_path(:target => "#{cmts[:host]}"), :method => :get, 'data-original-title'.to_sym => 'Show Cable Modem Summary', :class => "scmsum" %>
+					</h4>
+		    	</div>
+
+			    <% if session[:admin] %>
+						<div style="margin-top:30px; padding-bottom:10px; margin-left:0px;">
+			    		<%= link_to 'Manage', managec3_path(:target => cmts[:host]), :method => 'get', :class => 'btn btn-mini btn-danger' %>
+						</div>
+				<% end %>
+			</div>
+
+			<div class="col-md-5" style="margin-top: -30px;">
+	    		<% color = 'red' if cmts[:ds_util] >= 90 %>
+	    		<% color = 'green' if cmts[:ds_util] < 90 %>
+	    	<div class="panel panel-default">
+					<table class="table table-striped table-bordered table-condensed table-hover">
+					  <thead>
+						  <tr>
+						  	<th>FREQUENCY</th>
+						  	<th>POLARITY</th>
+						    <th>DS MODULATION</th>
+						    <th>UTILIZATION</th>
+						    <th>BANDWIDTH</th>
+						  </tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><%= cmts[:ds_freq] %>Mhz</td>
+								<td><%= cmts[:polarity] %></td>
+								<td><%= cmts[:ds_modulation].upcase %></td>
+								<td class='dsutil' style="color:<%= color %>" rel='tooltip'><%= cmts[:ds_util] %>% <div style="display:inline;"><%= link_to image_tag('ds_util_graph.jpg', :height => '22', :width => '22'), @ds_util_graph_map[cmts[:host]] %></div></td>
+								<td><%= link_to image_tag('ds_graph.png', :height => '22', :width => '50'), @ds_bandwidth_graph_map[cmts[:host]] %></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			  <% if session[:admin] %>
+					<%= link_to 'Config', showrun_path(:target => "#{cmts[:host]}"), :method => :get, :class => 'btn btn-mini btn-primary' %>
+					<%= link_to 'Controllers', showcontrollers_path(:target => "#{cmts[:host]}"), :method => :get, :class => 'btn btn-mini btn-primary' %>
+					<%= link_to 'Environ', showenvironment_path(:target => "#{cmts[:host]}"), :method => :get, :class => 'btn btn-mini btn-primary' %>
+				<% end %>
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<table class="table table-striped table-condensed table-hover">
+			  <thead>
+				  <tr>
+				    <th>CHANNEL</th>
+				    <th colspan="2">STATE</th>
+				    <th></th>
+				    <th>PROVISIONED COUNT</th>
+				    <th><%= link_to 'REGISTERED COUNT', @cpe_graph_map[cmts[:host]] %></th>
+				    <th>% of PROVISIONED</th>
+				    <th>% of TOTAL</th>
+				    <th>UPSTREAM FREQUENCY (MHz)</th>
+				    <th>CHANNEL WIDTH (kHz)</th>
+				    <th>DOCSIS</th>
+				    <th>UPSTREAM Modulation</th>
+				    <th>UPSTREAM SNR</th>
+				    <th><%= link_to 'MER', @mer_graph_map[cmts[:host]] %></th>
+				    <th>UTIL</th>
+				  </tr>
+				</thead>
+				<tbody>
+					<% cmts.each do |k,v| %>
+					  <% next if k == :host %>
+					  <% next if k == :title %>
+					  <% next if k == :totalsubs %>
+	         	<% next if k == :avg_us %>
+					  <% next if k == :ds_freq %>
+					  <% next if k == :polarity %>
+					  <% next if k == :ds_modulation %>
+					  <% next if k == :ds_util %>
+
+					  <% color = '' %>
+					  <% color = 'red' if (v[:prov] > 0 && v[:subs] == 0) %>
+					  <% merstyle = '' %>
+					  <% merstyle = 'color:red;font-weight:bold;' if ((v[:mer] < 15) && (v[:int_state] != "ADMIN DOWN") && (v[:prov] != 0)) %>
+
+					  <tr>
+					  	<td><%= k - 1%></td>
+					  	<td width='110px'><%= v[:int_state] %></td>
+					  	<td>
+					  	  <% state_img = ''; div_class = ''; tooltip = '' %>
+					  		<% if v[:int_state] == 'ADMIN DOWN' %>
+					  			<% state_img = 'down_arrow.png'; div_class = 'interface_control_up'; tooltip = 'Turn Interface Up' %>
+					  		<% else %>
+					  			<% state_img = 'up_arrow.png'; div_class = 'interface_control_down'; tooltip = 'Turn Interface Down' %>
+					  		<% end %>
+						  	<%= link_to image_tag(state_img, :height => '20', :width => '20'), showcablemodems_path(:target => "#{cmts[:host]}"), :method => :get, 'data-original-title'.to_sym => tooltip, :class => div_class %>
+					  	<td/>
+					  	<td><%= v[:prov] %></td>
+					  	<% provisioned += v[:prov] %>
+					  	<td style="color:<%= color %>"><%= v[:subs] %></td>
+					  	<% tp = ((v[:subs].to_f/v[:prov])*100).finite? ? (v[:subs].to_f/v[:prov])*100 : 0.0 %>
+					  	<td style="color:<%= color %>"><%= tp.round(2) %></td>
+					  	<% ts = ((v[:subs].to_f/cmts[:totalsubs])*100).finite? ? (v[:subs].to_f/cmts[:totalsubs])*100 : 0.0 %>
+					  	<td style="color:<%= color %>"><%= ts.round(2) %></td>
+
+					  	<td><%= v[:freq] %></td>
+					  	<td><%= v[:ch_width] %></td>
+					  	<td><%= v[:ch_type] %></td>
+					  	<td><%= v[:ch_modulation] %></td>
+					  	<td><%= v[:snr] %></td>
+					  	<td style="<%= merstyle %>"><%= v[:mer] %></td>
+
+					  	<% color = 'red' if v[:util].to_i >= 90 %>
+	    				<% color = 'green' if v[:util].to_i < 90 %>
+					  	<td style="color:<%= color %>;text-align:right;"><%= v[:util] %>%</td>
+					  	<% if (cmts[:totalsubs]>0) %>
+								<% if v[:subs] > 0 %>
+									<td><%= link_to image_tag('sweep.png', :height => '25', :width => '25'), sweep_path(:target => "#{cmts[:host]}", :channel => k.to_i - 1), :method => :get, 'data-original-title'.to_sym => 'Sweep registered modems on this channel', :class => "channelsweep" %></td>
+								<% else %>
+									<td></td>
+								<% end %>
+							<% end %>
+					  </tr>
+					<% end %>
+					<tr style='background:#ACC0C8;font-weight:bold;'>
+						<td colspan=4>Total Subs:</td>
+						<td colspan=1><%= provisioned %></td>
+						<td colspan=1><%= cmts[:totalsubs] %></td>
+						<% total_per_of_prov = (cmts[:totalsubs].to_f / provisioned.to_f).finite? ? (cmts[:totalsubs].to_f / provisioned.to_f)*100 : 0.0 %>
+	      		<td colspan=4><%= total_per_of_prov.round(2) %></td>
+	        	<td colspan=2>Avg Upsream:</td>
+	        	<td colspan=2><%= cmts[:avg_us].round(2) %></td>
+	        	<td style="color:<%= color %>;"><%= avg_us_util(cmts) %>%</td>
+	        	<td></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<br />
+	<% end %>
+	<p>
+		<%= button_to 'Back to List', root_path, :method => 'get', :class => 'btn btn-mini btn-primary' %>
+	</p>
+</div>
+<div class="col-md-1"></div>
+</div>

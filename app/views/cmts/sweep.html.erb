@@ -1,0 +1,217 @@
+<style>
+.center {
+  margin-left:auto;
+  margin-right:auto;
+  margin-top:auto;
+  margin-bottom:auto;
+  width:10%;
+}
+.caution {
+  border-collapse:collapse;
+  /*background-color: red;*/
+  border-spacing: 0;
+}
+.no_caution {
+  /*border-collapse:collapse;*/
+  background-color: white;
+  border-spacing: 0;
+}
+#spacer-col {
+  width: 15px;
+}
+</style>
+<div class="row">
+  <div class="col-md-12 text-center">
+    <p class="lead">
+      <h2><%= @sweep_host %> Modem Sweep Results</h2>
+      <br />
+      <h3><%= @sweep_channel %></h3>
+    </p>
+    <%= render "back_to_reports" %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-5"></div>
+  <div class="text-center col-md-2">
+    <h2>Summary</h2>
+  </div>
+  <div class="col-md-5"></div>
+  <br>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <table class="table table-striped table-bordered table-condensed table-hover">
+        <caption style="padding-bottom:10px;"><h4><b>Downstream Power (dBmV)</b></h4></caption>
+        <thead>
+          <tr>
+            <th>AVG</th>
+            <th>MIN</th>
+            <th>MAX</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= @ds[:avg] %></td>
+            <td><%= @ds[:min] %></td>
+            <td><%= @ds[:max] %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <br />
+    <div class="panel panel-default">
+      <table class="table table-striped table-bordered table-condensed table-hover">
+          <thead>
+            <tr>
+              <th>Category (dBm)</th>
+              <th>Total</th>
+              <th>Percent</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>16 or more</td><td align="right"><%= @ds['16plus'].round(0) %></td><td align="right"><%= ((@ds['16plus']/@ds[:ds_cat_total]) * 100).round(1) %></td>
+              <td rowspan="3"><%= image_tag("#{@ds_chart}") %></td>
+            </tr>
+            <tr>
+              <td>-15 to +15</td><td align="right"><%= @ds['-15to+15'].round(0) %></td><td align="right"><%= ((@ds['-15to+15']/@ds[:ds_cat_total]) * 100).round(1) %></td>
+            </tr>
+            <tr>
+              <td>less than -15</td><td align="right"><%= @ds['-14less'].round(0) %></td><td align="right"><%= ((@ds['-14less']/@ds[:ds_cat_total]) * 100).round(1) %></td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <table class="table table-striped table-bordered table-condensed table-hover">
+        <caption style="padding-bottom:10px;"><h4><b>Upstream Power (dBmV)</b></h4></caption>
+        <thead>
+          <tr>
+            <th>AVG</th>
+            <th>MIN</th>
+            <th>MAX</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+              <td><%= @us[:avg] %></td>
+              <td><%= @us[:min] %></td>
+              <td><%= @us[:max] %></td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+    <br />
+    <div class="panel panel-default">
+      <table class="table table-striped table-bordered table-condensed table-hover">
+        <thead>
+          <th>Category (dBm)</th>
+          <th>Total</th>
+          <th>Percent</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>51 to 61</td><td align="right"><%= @us['51to61'].round(0) %></td><td align="right"><%= ((@us['51to61']/@ds[:ds_cat_total]) * 100).round(1) %></td>
+            <td rowspan="3"><%= image_tag("#{@us_chart}") %></td>
+          </tr>
+          <tr>
+            <td>35 to 51</td><td align="right"><%= @us['51to35'].round(0) %></td><td align="right"><%= ((@us['51to35']/@ds[:ds_cat_total]) * 100).round(1) %></td>
+          </tr>
+          <tr>
+            <td>less than 35</td><td align="right"><%= @us['34less'].round(0) %></td><td align="right"><%= ((@us['34less']/@ds[:ds_cat_total]) * 100).round(1) %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!--
+************************************************
+  Sweep Detail
+************************************************
+ -->
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <h2>Detail</h2>
+      <div class="panel panel-default">
+        <table class="fix_headers table table-striped table-bordered" cellpadding="0" cellspacing="0" border="0" style='width:100%;' id="sweep">
+          <thead>
+            <tr>
+              <th></th>
+              <th width='200px'>Customer</td>
+              <th width='20px'>CID</td>
+              <th>IP Addr</td>
+              <th>MOD</th>
+              <th>DOC</th>
+              <th>CMTS SNR</th>
+              <th>CMTS RCV PWR dBmV</th>
+              <th>CPE DS dBmV</th>
+              <th>CPE US dBmV</th>
+              <th>SNR</th>
+              <th>Micro Refl</td>
+              <th>Resets</th>
+              <th>Invalid Range Resp</th>
+              <th>Invalid Reg Resp</th>
+              <th>Aborted Rangings</th>
+              <th>DS RF Bytes</th>
+              <th>US RF Bytes</th>
+              <th>DS RF Error Bytes</th>
+              <th>US RF Error Bytes</th>
+              <th>DS Eth Bytes</th>
+              <th>US Eth Bytes</th>
+              <th width="200px" colspan=2 class="center caution">
+                <table>
+                  <tr>
+                    <td colspan=2 class="center caution">Power Cycle</td>
+                  </tr>
+                  <tr>
+                    <td colspan=1 class="no_caution"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+                    <td colspan=1 class="center no_caution"><%= link_to image_tag('recycle-red-button.png', :height => '30', :width => '35'), resetmodemcounters_path(:target => 'all'), :confirm => 'Are you sure you want to Power Cycle "ALL" Modems?', :remote => true, :method => :get %></td>
+                  </tr>
+                </table>
+              </th>
+            </tr>
+          </thead>
+          <tbody class='table table-stripped'>
+            <% @sweep_data.sort { |x,y| y[:up] <=> x[:up] }.each do |cm| %>
+              <tr>
+                <td><%= link_to image_tag('platypus.png', :height => '25', :width => '25'), plat_path(:ip => cm[3], :mac => ''), :method => :get %></td>
+                <td width='200px'><%= cm[:customer] %></td>
+                <td width='20px'><%= cm[:cid] %></td>
+                <td><a href="http://<%= cm[:ip] %>" target="_blank"><%= cm[:ip] %></a></td>
+                <td><%= cm[:us_mod] %></td>
+                <td><%= cm[:docsis] %></td>
+                <td><%= cm[:cmts_snr] %></td>
+                <td><%= cm[:rcv_pwr] %></td>
+                <td><%= cm[:down] %></td>
+                <td><%= cm[:up] %></td>
+                <td><%= cm[:cpe_snr] %></td>
+                <td><%= cm[:mr] %></td>
+                <td><%= cm[:resets] %></td>
+                <td><%= cm[:irr] %></td>
+                <td><%= cm[:iregr] %></td>
+                <td><%= cm[:ar] %></td>
+                <td align="right"><%= number_to_human_size(cm[:ds_rf_bytes]) %></td>
+                <td align="right"><%= number_to_human_size(cm[:us_rf_bytes]) %></td>
+                <td align="right"><%= cm[:ds_rf_err_bytes] %></td>
+                <td align="right"><%= cm[:us_rf_err_bytes] %></td>
+                <td align="right"><%= number_to_human_size(cm[:us_eth_bytes]) %></td>
+                <td align="right"><%= number_to_human_size(cm[:ds_eth_bytes]) %></td>
+                <td align="center"><%= link_to image_tag('point.png', :height => '25', :width => '25'), cm[:url], :target => "_blank" %></td>
+                <td><%= link_to image_tag('recycle-red-button.png', :height => '20', :width => '25'), resetmodemcounters_path(:target => cm[:ip]), :confirm => 'Are you sure you want to power cycle this modem?', :remote => true, :method => :get %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+<%= render "back_to_reports" %>

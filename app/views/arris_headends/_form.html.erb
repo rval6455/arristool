@@ -1,0 +1,33 @@
+<%= form_for(@arris_headend) do |f| %>
+  <% if @arris_headend.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@arris_headend.errors.count, "error") %> prohibited this arris_headend from being saved:</h2>
+
+      <ul>
+      <% @arris_headend.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :host %><br />
+    <%= f.text_field :host %>
+  </div>
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :downstream_freq %><br />
+    <%= f.text_field :downstream_freq %>
+  </div>
+  <div class="field">
+    <%= f.label :polarity %><br />
+    <%= f.text_field :polarity %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
