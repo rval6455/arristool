@@ -11,13 +11,14 @@ services:
 
   arristool:
     image: arristool:latest
-    # restart: unless-stopped
+    restart: unless-stopped
     container_name: arristool
+    hostname: arristool.speedconnect.net
     ports:
       - 3000:3000
     env_file: ./app.env
     environment:
-      - INITDB=1
+      - INITDB=0
     volumes:
       - ./:/app
       - ./share:/share
@@ -29,5 +30,5 @@ services:
 networks:
   default:
     external:
-      name: arristool-network
+      name: services-network
 

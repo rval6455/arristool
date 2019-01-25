@@ -4,10 +4,13 @@ cp /tmp/resolv.conf /etc/
 
 cd /app
 
-if [ "$INITDB" == "1" ]; then
+if [ "$INITDB" -eq "1" ]; then
+  echo "Initializing Rails Database"
   rails db:setup
-  mysql -h db -u$MYSQL_USER -p$MYSQL_PASWORD < /shell/vyyo.sql
-  mysql -h db -u$MYSQL_USER -p$MYSQL_PASWORD < /shell/arristool_development.sql
+  echo "Importing vyyo database"
+  mysql -h db -u$MYSQL_USER -p$MYSQL_PASSWORD < /share/vyyo.sql
+  echo "Importing arris database"
+  mysql -h db -u$MYSQL_USER -p$MYSQL_PASSWORD < /share/arristool_development.sql
 fi
 
 rm -f /app/tmp/pids/server.pid

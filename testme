@@ -1,0 +1,5 @@
+#!/bin/bash
+
+if [ "$INITDB" -eq "1" ]; then
+echo "hello"
+fi 

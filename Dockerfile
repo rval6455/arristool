@@ -1,4 +1,4 @@
-FROM docker-registry.speedconnect.com/production_rails_base:latest
+FROM production_rails_base:latest
 
 MAINTAINER Tony DeMatteis <tony.dematteis@speedconnect.net>
 
